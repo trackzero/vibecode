@@ -173,35 +173,44 @@ function Dashboard({ token, user }) {
   const [teams, setTeams] = useState({});
   useEffect(() => {
     if (!token) return;
-    // fetch team names for grouping
-    fetch('/teams', { headers: { 'Authorization': `Bearer ${token}` } })
-      .then(r => r.json())
-      .then(ts => setTeams(Object.fromEntries(ts.map(t => [t.id, t.name]))));
-    fetch('/accomplishments', { headers: { 'Authorization': `Bearer ${token}` } })
-      .then(r => r.json())
-      .then(list => {
-        const byType = {}, byTeam = {};
-        list.forEach(a => {
-          byType[a.type] = (byType[a.type]||0) + 1;
-          const t = teams[a.teamId] || 'No Team';
-          byTeam[t] = (byTeam[t]||0) + 1;
-        });
-        setCountsByType(byType);
-        setCountsByTeam(byTeam);
+    // Load teams and accomplishments together
+    Promise.all([
+      fetch('/teams', { headers: { 'Authorization': `Bearer ${token}` } }).then(r => r.json()),
+      fetch('/accomplishments', { headers: { 'Authorization': `Bearer ${token}` } }).then(r => r.json())
+    ]).then(([ts, list]) => {
+      const teamMap = Object.fromEntries(ts.map(t => [t.id, t.name]));
+      setTeams(teamMap);
+      const byType = {}, byTeam = {};
+      (Array.isArray(list) ? list : []).forEach(a => {
+        byType[a.type] = (byType[a.type]||0) + 1;
+        const name = teamMap[a.teamId] || 'No Team';
+        byTeam[name] = (byTeam[name]||0) + 1;
       });
-  }, [token, teams]);
+      setCountsByType(byType);
+      setCountsByTeam(byTeam);
+    }).catch(() => {
+      setTeams({});
+      setCountsByType({});
+      setCountsByTeam({});
+    });
+  }, [token]);
   const typeRef = useRef();
   const teamRef = useRef();
+  const typeChartRef = useRef();
+  const teamChartRef = useRef();
   useEffect(() => {
+    // Render/update charts; destroy previous instances first
     if (typeRef.current) {
-      new Chart(typeRef.current, {
+      if (typeChartRef.current) typeChartRef.current.destroy();
+      typeChartRef.current = new Chart(typeRef.current.getContext('2d'), {
         type: 'doughnut',
         data: { labels: Object.keys(countsByType), datasets: [{ data: Object.values(countsByType), backgroundColor: ['#4e73df','#1cc88a','#36b9cc','#f6c23e','#e74a3b'] }] },
         options: { plugins: { legend: { position: 'bottom' } } }
       });
     }
     if (teamRef.current) {
-      new Chart(teamRef.current, {
+      if (teamChartRef.current) teamChartRef.current.destroy();
+      teamChartRef.current = new Chart(teamRef.current.getContext('2d'), {
         type: 'bar',
         data: { labels: Object.keys(countsByTeam), datasets: [{ label: 'By Team', data: Object.values(countsByTeam), backgroundColor: '#858796' }] },
         options: { plugins: { legend: { display: false } } }
