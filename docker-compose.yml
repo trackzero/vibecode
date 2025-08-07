@@ -1,0 +1,19 @@
+
+services:
+  team-metrics:
+    build: .
+    image: team-metrics:latest
+    environment:
+      # Override in .env or system environment
+      - JWT_SECRET=${JWT_SECRET:-secretkey}
+      - HOST=0.0.0.0
+    ports:
+      - '3000:3000'
+    volumes:
+      # Persist data.json across restarts
+      - ./data.json:/app/data.json
+
+# Optionally load .env for environment variables
+# Uncomment this section if you have a .env file
+# env_file:
+#   - .env

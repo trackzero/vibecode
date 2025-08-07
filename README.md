@@ -16,6 +16,8 @@ This project provides a minimal backend for the **SOV Vibe-A-Thon** Team Metrics
 - npm (bundled with Node.js)
 - Docker (optional, for containerization)
 
+_Note: No manual `data.json` file is required; the application auto-creates or repairs it on startup._
+
 
 ## 📦 Installation
 
@@ -45,20 +47,30 @@ npm test
 ## 🐳 Docker
 
 A `Dockerfile` is provided for containerized deployment.
-
-Build the image:
-
-```bash
-docker build -t team-metrics .
-```
-
-Run the container:
+Build and run with Docker Compose (data persists via bind-mount to `data.json`):
 
 ```bash
-docker run -p 3000:3000 team-metrics
+# Build image and start service
+docker-compose up -d --build
+
+# To monitor logs:
+docker-compose logs -f
+
+# To stop and remove containers:
+docker-compose down
 ```
 
-The API will be accessible at [http://localhost:3000](http://localhost:3000).
+The web UI and API will be accessible at [http://localhost:3000](http://localhost:3000).
+
+## 🔄 Data Reset UI (Development Only)
+
+You can reset all data by visiting the reset page:
+
+```text
+http://localhost:3000/reset
+```
+
+This will present a confirmation button and clear users, teams, and accomplishments.
 
 ## 🔧 Environment Variables
 
@@ -67,7 +79,7 @@ The API will be accessible at [http://localhost:3000](http://localhost:3000).
 | `PORT`       | Port for the server to listen on     | `3000`        |
 | `JWT_SECRET` | Secret key for signing JWT tokens    | `secretkey`   |
 
-Optionally, create a `.env` file in the project root to set these variables automatically:
+Optionally, create a `.env` file in the project root to configure secret values and ports. Docker Compose will pick it up automatically:
 ```
 PORT=3000
 JWT_SECRET=your_secret_key
@@ -93,3 +105,11 @@ Create a new accomplishment for the authenticated user.
 ### 📊 `GET /accomplishments`
 List accomplishments scoped to the requester. Optional query parameters:
 `type`, `tag`, `q`, `start`, `end`.
+
+### 🧹 `POST /reset`
+Reset all application data (users, teams, accomplishments) to empty arrays. **For development/debug only; not linked in UI.**
+
+## ⚠️ Notes on Browser Warnings
+
+- You may see an in-browser Babel transformer warning (development-only JSX compilation). This is expected; precompile scripts for production (https://babeljs.io/docs/setup).
+- Chrome may warn that a password input isn't inside a `<form>`; this is a harmless browser notification and doesn't affect functionality.
