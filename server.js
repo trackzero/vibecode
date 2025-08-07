@@ -1,11 +1,15 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const path = require('path');
 const { v4: uuid } = require('uuid');
 const { readData, writeData } = require('./data');
 const { generateToken, authenticate, authorize } = require('./auth');
 
 const app = express();
 app.use(express.json());
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Register user
 app.post('/register', async (req, res) => {
@@ -77,6 +81,11 @@ app.get('/accomplishments', authenticate, (req, res) => {
   if (start) data = data.filter(a => new Date(a.date) >= new Date(start));
   if (end) data = data.filter(a => new Date(a.date) <= new Date(end));
   res.json(data);
+});
+
+// All other routes serve the frontend
+app.get('/:path*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 if (require.main === module) {

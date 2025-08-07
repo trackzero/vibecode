@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Metrics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <h1>Team Metrics</h1>
+    <div id="login-section">
+      <h2>Login</h2>
+      <input id="email" placeholder="Email" type="email">
+      <input id="password" placeholder="Password" type="password">
+      <button id="login-btn">Login</button>
+      <button id="register-btn">Register</button>
+    </div>
+    <div id="dashboard" style="display:none;">
+      <nav>
+        <button id="tab-accomplishments">Accomplishments</button>
+        <button id="tab-dashboard">Dashboard</button>
+        <button id="logout-btn">Logout</button>
+      </nav>
+      <div id="content"></div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

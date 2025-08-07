@@ -42,6 +42,8 @@ Run the container:
 docker run -p 3000:3000 team-metrics
 ```
 
+Then open your browser at `http://localhost:3000` to access the Team Metrics web UI.
+
 The API will be accessible on `http://localhost:3000`.
 
 ## API Overview
