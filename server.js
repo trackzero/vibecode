@@ -83,14 +83,16 @@ app.get('/accomplishments', authenticate, (req, res) => {
   res.json(data);
 });
 
-// All other routes serve the frontend
-app.get('/:path*', (req, res) => {
+// Fallback: serve frontend for any unmatched route
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 if (require.main === module) {
   const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+  // Bind to all network interfaces by default so container can be reached externally
+  const HOST = process.env.HOST || '0.0.0.0';
+  app.listen(PORT, HOST, () => console.log(`Server running on ${HOST}:${PORT}`));
 }
 
 module.exports = app;

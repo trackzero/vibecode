@@ -7,26 +7,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <h1>Team Metrics</h1>
-    <div id="login-section">
-      <h2>Login</h2>
-      <input id="email" placeholder="Email" type="email">
-      <input id="password" placeholder="Password" type="password">
-      <button id="login-btn">Login</button>
-      <button id="register-btn">Register</button>
-    </div>
-    <div id="dashboard" style="display:none;">
-      <nav>
-        <button id="tab-accomplishments">Accomplishments</button>
-        <button id="tab-dashboard">Dashboard</button>
-        <button id="logout-btn">Logout</button>
-      </nav>
-      <div id="content"></div>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="app.js"></script>
+  <div id="app"></div>
+  <!-- React and React-Router via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- React Router no longer required; using internal state for view switching -->
+  <!-- Babel for JSX transpilation -->
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+  <!-- Main SPA script -->
+  <script type="text/babel" src="app.js"></script>
 </body>
 </html>
