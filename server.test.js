@@ -76,4 +76,5 @@ describe('Team Metrics API', () => {
     expect(list.body.length).toBe(1);
     expect(list.body[0].title).toBe('Task X');
   });
-=======
+
+});

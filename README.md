@@ -1,34 +1,50 @@
-# Team Metrics API
+# 🚀 Team Metrics API
 
-This project provides a minimal backend for the **SOV Vibe-A-Thon** challenge. It exposes a REST API for user authentication, team management and accomplishment tracking. Data is persisted to a local JSON file and authentication is handled with JSON Web Tokens.
+This project provides a minimal backend for the **SOV Vibe-A-Thon** Team Metrics application. It exposes a REST API for user authentication, team management, and accomplishment tracking. Data is persisted to a local JSON file and authentication is handled with JSON Web Tokens (JWT).
 
-## Features
+## ✨ Features
 
-- **User Authentication & Roles**: register and login with email/password. Returned JWT embeds the user role (`admin`, `lead`, or `user`) and team id. Protected routes use middleware to enforce authentication and authorization.
-- **User Management**: admins and team leads can list all users in the system.
+- **User Authentication & Roles**: register and login with email/password. Returned JWT embeds the user role (`admin`, `lead`, or `user`) and team ID. Protected routes enforce authentication and authorization.
+- **User Management**: admins and team leads can list all users and manage basic user information.
 - **Team Management**: admins and team leads can create teams.
-- **Accomplishment Tracking**: authenticated users can create accomplishments with title, description, type, date, tags and metrics. Query parameters allow filtering by type, tag, date range and text search. Role based scoping ensures users see only their own accomplishments while team leads see their team's data.
-- **File Backed Storage**: information is saved to `data.json` so server restarts preserve data.
+- **Accomplishment Tracking**: authenticated users can create accomplishments with title, description, type, date, tags, and metrics. Query parameters allow filtering by type, tag, date range, and text search. Role-based scoping ensures users see only their own accomplishments while team leads see their team's data.
+- **File-Backed Storage**: data is saved to `data.json` so server restarts preserve data.
 
-## Running Locally
-=======
-This project implements a simplified backend for the SOV Vibe-A-Thon Team Metrics application. It provides user authentication, accomplishment tracking, and basic team/user management.
+## 📋 Prerequisites
 
-## Setup
+- Node.js v20+ (https://nodejs.org/)
+- npm (bundled with Node.js)
+- Docker (optional, for containerization)
 
-The API will be available at `http://localhost:3000`.
 
-## Verification Tests
+## 📦 Installation
 
-Jest/Supertest tests cover registration, login, accomplishment creation/listing, user listing authorization, team creation authorization and accomplishment filtering.
-=======
-The server will start on `http://localhost:3000`.
+```bash
+git clone <repository_url>
+cd <repo-folder>
+npm install
+```
 
-## Running Tests
+## 🏃‍♂️ Running Locally
 
-## Docker
+Start the server on [http://localhost:3000](http://localhost:3000):
 
-A `Dockerfile` is provided so the server can run in a container.
+```bash
+npm start
+```
+
+## ✅ Running Tests
+
+Run the test suite (Jest + Supertest):
+
+```bash
+npm test
+```
+
+
+## 🐳 Docker
+
+A `Dockerfile` is provided for containerized deployment.
 
 Build the image:
 
@@ -42,28 +58,38 @@ Run the container:
 docker run -p 3000:3000 team-metrics
 ```
 
-Then open your browser at `http://localhost:3000` to access the Team Metrics web UI.
+The API will be accessible at [http://localhost:3000](http://localhost:3000).
 
-The API will be accessible on `http://localhost:3000`.
+## 🔧 Environment Variables
 
-## API Overview
+| Variable     | Description                          | Default       |
+| ------------ | ------------------------------------ | ------------- |
+| `PORT`       | Port for the server to listen on     | `3000`        |
+| `JWT_SECRET` | Secret key for signing JWT tokens    | `secretkey`   |
 
-### `POST /register`
-Create a user. Body: `{ email, password, name, role?, teamId? }`
+Optionally, create a `.env` file in the project root to set these variables automatically:
+```
+PORT=3000
+JWT_SECRET=your_secret_key
+```
 
-### `POST /login`
+## 📖 API Overview
+
+### 🔐 `POST /register`
+Create a new user. Body: `{ email, password, name, role?, teamId? }`
+
+### 🔑 `POST /login`
 Authenticate a user and receive a JWT: `{ token }`
 
-### `GET /users`
+### 👥 `GET /users`
 List all users (admin or team lead only).
 
-### `POST /teams`
+### 🏢 `POST /teams`
 Create a new team (admin or team lead only).
 
-### `POST /accomplishments`
-Create an accomplishment for the authenticated user.
+### 🎯 `POST /accomplishments`
+Create a new accomplishment for the authenticated user.
 
-### `GET /accomplishments`
-List accomplishments scoped to the requester and optionally filter with `type`, `tag`, `q`, `start`, `end` query params.
-
-=======
+### 📊 `GET /accomplishments`
+List accomplishments scoped to the requester. Optional query parameters:
+`type`, `tag`, `q`, `start`, `end`.

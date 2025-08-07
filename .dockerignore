@@ -1,8 +1,7 @@
 node_modules
-npm-debug.log
-Dockerfile
-.git
-.gitignore
 data.json
-test
-*.test.js
+npm-debug.log
+sov-vibe-a-thon-instructions
+test.js
+test1.js
+server.test.js
