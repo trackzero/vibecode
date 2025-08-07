@@ -11,21 +11,20 @@ This project provides a minimal backend for the **SOV Vibe-A-Thon** challenge. I
 - **File Backed Storage**: information is saved to `data.json` so server restarts preserve data.
 
 ## Running Locally
+=======
+This project implements a simplified backend for the SOV Vibe-A-Thon Team Metrics application. It provides user authentication, accomplishment tracking, and basic team/user management.
 
-```bash
-npm install
-npm start
-```
+## Setup
 
 The API will be available at `http://localhost:3000`.
 
 ## Verification Tests
 
 Jest/Supertest tests cover registration, login, accomplishment creation/listing, user listing authorization, team creation authorization and accomplishment filtering.
+=======
+The server will start on `http://localhost:3000`.
 
-```bash
-npm test
-```
+## Running Tests
 
 ## Docker
 
@@ -65,3 +64,4 @@ Create an accomplishment for the authenticated user.
 ### `GET /accomplishments`
 List accomplishments scoped to the requester and optionally filter with `type`, `tag`, `q`, `start`, `end` query params.
 
+=======
